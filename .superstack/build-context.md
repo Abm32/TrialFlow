@@ -13,9 +13,10 @@
   "build_status": {
     "milestones": [
       "Created initial repo structure and architecture docs",
-      "Implemented FastAPI backend with modular simulation engine and mock blockchain services"
+      "Implemented FastAPI backend with modular simulation engine and mock blockchain services",
+      "Implemented Next.js frontend, verified build, and documented local run flow"
     ],
-    "mvp_complete": false,
+    "mvp_complete": true,
     "tests_passing": true,
     "devnet_deployed": false,
     "program_id": ""
