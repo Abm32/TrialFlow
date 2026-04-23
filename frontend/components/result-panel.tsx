@@ -3,6 +3,7 @@ import { SimulationResult } from "@/lib/types";
 import { LineChart } from "@/components/line-chart";
 import { MetricCards } from "@/components/metric-cards";
 import { OutcomeChart } from "@/components/outcome-chart";
+import { StatisticalSummary } from "@/components/statistical-summary";
 
 type ResultPanelProps = {
   result: SimulationResult | null;
@@ -40,6 +41,7 @@ export function ResultPanel({ result }: ResultPanelProps) {
       </div>
 
       <MetricCards result={result} />
+      <StatisticalSummary result={result} />
 
       <div className="grid gap-5 xl:grid-cols-[1.3fr_0.7fr]">
         <LineChart title="Effectiveness over time" points={result.effect_curve} strokeColor="#0f766e" />

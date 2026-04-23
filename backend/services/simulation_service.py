@@ -22,6 +22,7 @@ def execute_simulation(request: SimulationRunRequest) -> SimulationRunResponse:
         simulation_id=f"sim_{uuid4().hex[:12]}",
         simulation_type=request.simulation_type,
         metrics=simulation_payload["metrics"],
+        statistical_summary=simulation_payload["statistical_summary"],
         effect_curve=simulation_payload["effect_curve"],
         side_effect_curve=simulation_payload["side_effect_curve"],
         payment=payment_receipt,

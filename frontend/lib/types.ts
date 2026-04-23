@@ -26,11 +26,32 @@ export type SimulationResult = {
     effectiveness_percent: number;
     side_effect_probability_percent: number;
     average_response_score: number;
+    dropout_rate_percent: number;
     outcome_distribution: {
       improved: number;
       stable: number;
       declined: number;
     };
+  };
+  statistical_summary: {
+    efficacy_confidence_interval: {
+      lower: number;
+      upper: number;
+    };
+    treatment_vs_control: {
+      treatment_mean: number;
+      control_mean: number;
+      absolute_lift: number;
+      relative_lift_percent: number;
+    };
+    p_value: number;
+    adverse_event_breakdown: {
+      mild_percent: number;
+      moderate_percent: number;
+      severe_percent: number;
+    };
+    completion_rate_percent: number;
+    methodology: string;
   };
   effect_curve: ChartPoint[];
   side_effect_curve: ChartPoint[];

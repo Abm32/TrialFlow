@@ -43,6 +43,34 @@ class SimulationMetrics(BaseModel):
     side_effect_probability_percent: float
     outcome_distribution: OutcomeDistribution
     average_response_score: float
+    dropout_rate_percent: float
+
+
+class ConfidenceInterval(BaseModel):
+    lower: float
+    upper: float
+
+
+class TrialArmSummary(BaseModel):
+    treatment_mean: float
+    control_mean: float
+    absolute_lift: float
+    relative_lift_percent: float
+
+
+class AdverseEventBreakdown(BaseModel):
+    mild_percent: float
+    moderate_percent: float
+    severe_percent: float
+
+
+class StatisticalSummary(BaseModel):
+    efficacy_confidence_interval: ConfidenceInterval
+    treatment_vs_control: TrialArmSummary
+    p_value: float
+    adverse_event_breakdown: AdverseEventBreakdown
+    completion_rate_percent: float
+    methodology: str
 
 
 class BlockchainProof(BaseModel):
@@ -63,6 +91,7 @@ class SimulationRunResponse(BaseModel):
     simulation_id: str
     simulation_type: SimulationType
     metrics: SimulationMetrics
+    statistical_summary: StatisticalSummary
     effect_curve: list[ChartPoint]
     side_effect_curve: list[ChartPoint]
     payment: PaymentReceipt

@@ -20,11 +20,16 @@ const cards = [
     label: "Response score",
     suffix: "",
   },
+  {
+    key: "dropout_rate_percent",
+    label: "Dropout rate",
+    suffix: "%",
+  },
 ] as const;
 
 export function MetricCards({ result }: MetricCardsProps) {
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       {cards.map((card) => (
         <article key={card.key} className="panel p-5">
           <p className="text-sm font-medium text-secondary">{card.label}</p>

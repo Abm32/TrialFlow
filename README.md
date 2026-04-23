@@ -36,6 +36,8 @@ Simulation-as-a-Service Platform MVP for appchain-backed simulation workflows.
 5. Frontend renders metrics and charts.
 6. Backend hashes the result payload and stores the proof in a mock blockchain ledger.
 
+The current drug trial model uses a two-arm Monte Carlo simulation with placebo control, Emax dose response, adherence and dropout modeling, adverse-event severity, and normal-approximation inference for confidence intervals and p-values.
+
 ## Project status
 
 This repository is intentionally scoped to a clean, minimal MVP with one implemented simulation type: `drug_trial`.
