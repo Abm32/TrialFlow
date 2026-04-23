@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+import { Providers } from "@/components/providers";
+
 import "./globals.css";
+import "@initia/interwovenkit-react/styles.css";
 
 export const metadata: Metadata = {
   title: "TrialFlow MVP",
@@ -15,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

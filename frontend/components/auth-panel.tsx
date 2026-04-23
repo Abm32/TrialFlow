@@ -1,15 +1,38 @@
 "use client";
 
 import { clearSession } from "@/lib/session";
+import { DEFAULT_INITIA_CHAIN_ID } from "@/lib/initia";
 import { AuthMethod, Session } from "@/lib/types";
 
 type AuthPanelProps = {
   session: Session | null;
-  onAuth(method: AuthMethod): void;
+  walletAddress: string | null;
+  walletReady: boolean;
+  autosignEnabled: boolean;
+  autosignBusy: boolean;
+  onWalletConnect(): void;
+  onWalletManage(): void;
+  onSocialAuth(method: AuthMethod): void;
+  onToggleAutosign(): void;
   onLogout(): void;
 };
 
-export function AuthPanel({ session, onAuth, onLogout }: AuthPanelProps) {
+function shortenAddress(address: string) {
+  return `${address.slice(0, 8)}...${address.slice(-4)}`;
+}
+
+export function AuthPanel({
+  session,
+  walletAddress,
+  walletReady,
+  autosignEnabled,
+  autosignBusy,
+  onWalletConnect,
+  onWalletManage,
+  onSocialAuth,
+  onToggleAutosign,
+  onLogout,
+}: AuthPanelProps) {
   return (
     <section className="panel fade-up flex flex-col gap-5 p-6">
       <div className="flex items-start justify-between gap-4">
@@ -34,6 +57,47 @@ export function AuthPanel({ session, onAuth, onLogout }: AuthPanelProps) {
               Signed in via {session.authMethod} as <span className="font-medium">{session.walletAddress}</span>
             </p>
           </div>
+          {walletReady && walletAddress ? (
+            <div className="rounded-2xl border border-border bg-white p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-medium text-primary">Initia wallet</p>
+                  <p className="mt-1 text-sm text-secondary">
+                    {shortenAddress(walletAddress)} on {DEFAULT_INITIA_CHAIN_ID}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={onWalletManage}
+                  className="focus-ring min-h-11 rounded-2xl border border-border px-4 py-3 text-sm font-semibold text-primary transition hover:bg-slate-100"
+                >
+                  Open wallet
+                </button>
+              </div>
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-50 p-3">
+                <div>
+                  <p className="text-sm font-medium text-primary">Autosign</p>
+                  <p className="mt-1 text-sm text-secondary">
+                    {autosignEnabled
+                      ? "Enabled for seamless payment transactions."
+                      : "Disabled. Enable it to streamline mock payment actions."}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={onToggleAutosign}
+                  disabled={autosignBusy}
+                  className="focus-ring min-h-11 rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+                >
+                  {autosignBusy
+                    ? "Updating autosign..."
+                    : autosignEnabled
+                      ? "Disable autosign"
+                      : "Enable autosign"}
+                </button>
+              </div>
+            </div>
+          ) : null}
           <button
             type="button"
             onClick={() => {
@@ -49,20 +113,20 @@ export function AuthPanel({ session, onAuth, onLogout }: AuthPanelProps) {
         <div className="grid gap-3">
           <button
             type="button"
-            onClick={() => onAuth("wallet")}
+            onClick={onWalletConnect}
             className="focus-ring min-h-11 rounded-2xl bg-primary px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
           >
-            Connect wallet
+            Connect Initia wallet
           </button>
           <button
             type="button"
-            onClick={() => onAuth("social")}
+            onClick={() => onSocialAuth("social")}
             className="focus-ring min-h-11 rounded-2xl border border-border bg-white px-4 py-3 text-sm font-semibold text-primary transition hover:bg-slate-100"
           >
             Continue with social login
           </button>
           <p className="text-sm text-secondary">
-            MVP note: both options create a mock local session so we can exercise the payment and simulation flow quickly.
+            Wallet connections now use Initia InterwovenKit. Social login remains a local MVP fallback until we wire a production social provider.
           </p>
         </div>
       )}

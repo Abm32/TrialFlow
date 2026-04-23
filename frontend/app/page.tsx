@@ -2,11 +2,14 @@
 
 import { useEffect, useState, useTransition } from "react";
 
+import { useInterwovenKit } from "@initia/interwovenkit-react";
+
 import { AuthPanel } from "@/components/auth-panel";
 import { HistoryPanel } from "@/components/history-panel";
 import { ResultPanel } from "@/components/result-panel";
 import { SimulationForm } from "@/components/simulation-form";
 import { fetchHistory, runSimulation } from "@/lib/api";
+import { DEFAULT_INITIA_CHAIN_ID } from "@/lib/initia";
 import { loadSession, saveSession } from "@/lib/session";
 import { AuthMethod, Session, SimulationFormValues, SimulationRecord, SimulationResult } from "@/lib/types";
 
@@ -27,7 +30,18 @@ function buildMockSession(authMethod: AuthMethod): Session {
   };
 }
 
+function buildWalletSession(address: string): Session {
+  const suffix = address.slice(-6).toLowerCase();
+  return {
+    userId: `wallet_${suffix}`,
+    authMethod: "wallet",
+    displayName: "Initia Wallet User",
+    walletAddress: address,
+  };
+}
+
 export default function HomePage() {
+  const { autoSign, initiaAddress, openConnect, openWallet } = useInterwovenKit();
   const [session, setSession] = useState<Session | null>(null);
   const [formValues, setFormValues] = useState<SimulationFormValues>(initialValues);
   const [result, setResult] = useState<SimulationResult | null>(null);
@@ -45,6 +59,16 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    if (!initiaAddress) {
+      return;
+    }
+
+    const nextSession = buildWalletSession(initiaAddress);
+    saveSession(nextSession);
+    setSession(nextSession);
+  }, [initiaAddress]);
+
+  useEffect(() => {
     if (!session) {
       setHistory([]);
       return;
@@ -58,11 +82,36 @@ export default function HomePage() {
       .finally(() => setIsHistoryLoading(false));
   }, [session]);
 
-  function handleAuth(method: AuthMethod) {
+  function handleSocialAuth(method: AuthMethod) {
     const nextSession = buildMockSession(method);
     saveSession(nextSession);
     setSession(nextSession);
     setResult(null);
+  }
+
+  function handleLogout() {
+    setSession(null);
+    setResult(null);
+  }
+
+  function handleToggleAutosign() {
+    if (!initiaAddress) {
+      return;
+    }
+
+    startTransition(() => {
+      void (async () => {
+        try {
+          if (autoSign.isEnabledByChain?.[DEFAULT_INITIA_CHAIN_ID]) {
+            await autoSign.disable(DEFAULT_INITIA_CHAIN_ID);
+          } else {
+            await autoSign.enable(DEFAULT_INITIA_CHAIN_ID);
+          }
+        } catch {
+          setSubmitError("Autosign update failed. Reopen the wallet modal and try again.");
+        }
+      })();
+    });
   }
 
   function handleRunSimulation() {
@@ -118,11 +167,15 @@ export default function HomePage() {
           <div className="space-y-6">
             <AuthPanel
               session={session}
-              onAuth={handleAuth}
-              onLogout={() => {
-                setSession(null);
-                setResult(null);
-              }}
+              walletAddress={initiaAddress ?? null}
+              walletReady={Boolean(initiaAddress)}
+              autosignEnabled={Boolean(autoSign.isEnabledByChain?.[DEFAULT_INITIA_CHAIN_ID])}
+              autosignBusy={autoSign.isLoading || isPending}
+              onWalletConnect={openConnect}
+              onWalletManage={openWallet}
+              onSocialAuth={handleSocialAuth}
+              onToggleAutosign={handleToggleAutosign}
+              onLogout={handleLogout}
             />
             <SimulationForm
               values={formValues}

@@ -65,6 +65,8 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+InterwovenKit defaults to Initia testnet `initiation-2`. Override the chain with `NEXT_PUBLIC_INITIA_CHAIN_ID` if you want to point the wallet UX at a different Initia environment.
+
 ## Verified during development
 
 - Python backend compiled successfully with `python -m compileall backend`
