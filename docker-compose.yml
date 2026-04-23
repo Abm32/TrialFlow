@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: trialflow-backend
+    environment:
+      BACKEND_CORS_ORIGINS: http://localhost:3000
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000/api
+        NEXT_PUBLIC_INITIA_CHAIN_ID: initiation-2
+        NEXT_PUBLIC_INITIA_NETWORK: testnet
+    container_name: trialflow-frontend
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000/api
+      NEXT_PUBLIC_INITIA_CHAIN_ID: initiation-2
+      NEXT_PUBLIC_INITIA_NETWORK: testnet
+    ports:
+      - "3000:3000"

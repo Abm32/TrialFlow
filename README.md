@@ -67,6 +67,32 @@ Open `http://localhost:3000`.
 
 InterwovenKit defaults to Initia testnet `initiation-2`. Override the chain with `NEXT_PUBLIC_INITIA_CHAIN_ID` if you want to point the wallet UX at a different Initia environment.
 
+## Docker setup
+
+Run the full stack with Docker:
+
+```bash
+docker compose up --build
+```
+
+Services:
+
+- Frontend: `http://localhost:3000`
+- Backend API: `http://localhost:8000`
+- Backend health: `http://localhost:8000/health`
+
+Stop the stack:
+
+```bash
+docker compose down
+```
+
+Rebuild after dependency or Dockerfile changes:
+
+```bash
+docker compose up --build --force-recreate
+```
+
 ## Verified during development
 
 - Python backend compiled successfully with `python -m compileall backend`
