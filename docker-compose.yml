@@ -15,14 +15,20 @@ services:
       dockerfile: frontend/Dockerfile
       args:
         NEXT_PUBLIC_API_URL: http://localhost:8000/api
-        NEXT_PUBLIC_INITIA_CHAIN_ID: initiation-2
-        NEXT_PUBLIC_INITIA_NETWORK: testnet
+        NEXT_PUBLIC_INITIA_CHAIN_ID: ${NEXT_PUBLIC_INITIA_CHAIN_ID:-initiation-2}
+        NEXT_PUBLIC_INITIA_NETWORK: ${NEXT_PUBLIC_INITIA_NETWORK:-testnet}
+        NEXT_PUBLIC_INITIA_PAYMENT_DENOM: ${NEXT_PUBLIC_INITIA_PAYMENT_DENOM:-uinit}
+        NEXT_PUBLIC_INITIA_RPC_URL: ${NEXT_PUBLIC_INITIA_RPC_URL:-}
+        NEXT_PUBLIC_INITIA_REST_URL: ${NEXT_PUBLIC_INITIA_REST_URL:-}
     container_name: trialflow-frontend
     depends_on:
       - backend
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8000/api
-      NEXT_PUBLIC_INITIA_CHAIN_ID: initiation-2
-      NEXT_PUBLIC_INITIA_NETWORK: testnet
+      NEXT_PUBLIC_INITIA_CHAIN_ID: ${NEXT_PUBLIC_INITIA_CHAIN_ID:-initiation-2}
+      NEXT_PUBLIC_INITIA_NETWORK: ${NEXT_PUBLIC_INITIA_NETWORK:-testnet}
+      NEXT_PUBLIC_INITIA_PAYMENT_DENOM: ${NEXT_PUBLIC_INITIA_PAYMENT_DENOM:-uinit}
+      NEXT_PUBLIC_INITIA_RPC_URL: ${NEXT_PUBLIC_INITIA_RPC_URL:-}
+      NEXT_PUBLIC_INITIA_REST_URL: ${NEXT_PUBLIC_INITIA_REST_URL:-}
     ports:
       - "3000:3000"
