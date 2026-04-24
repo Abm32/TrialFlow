@@ -14,6 +14,8 @@ export type SimulationFormValues = {
   trialDurationDays: string;
 };
 
+export type SimulationFormErrors = Partial<Record<keyof SimulationFormValues, string>>;
+
 export type ChartPoint = {
   label: string;
   value: number;
@@ -22,6 +24,7 @@ export type ChartPoint = {
 export type SimulationResult = {
   simulation_id: string;
   simulation_type: "drug_trial";
+  insight_summary: string;
   metrics: {
     effectiveness_percent: number;
     side_effect_probability_percent: number;
@@ -58,6 +61,7 @@ export type SimulationResult = {
   payment: {
     success: boolean;
     transaction_id: string;
+    tx_hash: string | null;
     amount: number;
     currency: string;
   };
@@ -73,4 +77,16 @@ export type SimulationRecord = {
   user_id: string;
   auth_method: AuthMethod;
   result: SimulationResult;
+};
+
+export type RequestPhase = "idle" | "loading" | "success" | "error";
+
+export type WalletPaymentStatus = "idle" | "pending" | "success" | "failed";
+
+export type WalletPaymentState = {
+  status: WalletPaymentStatus;
+  txHash: string | null;
+  amount: string;
+  denom: string;
+  error: string | null;
 };

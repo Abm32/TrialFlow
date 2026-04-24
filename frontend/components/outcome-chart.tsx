@@ -32,8 +32,8 @@ export function OutcomeChart({ distribution }: OutcomeChartProps) {
         <h3 className="text-lg font-semibold text-primary">Outcome distribution</h3>
         <span className="text-xs uppercase tracking-[0.16em] text-secondary">Population</span>
       </div>
-      <div className="rounded-2xl bg-slate-50 p-4">
-        <div className="h-56">
+      <div className="min-w-0 rounded-2xl bg-slate-50 p-4">
+        <div className="h-56 min-w-0 md:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={entries} margin={{ top: 8, right: 4, left: -18, bottom: 0 }}>
               <CartesianGrid stroke="#dbe4ee" strokeDasharray="3 3" vertical={false} />
@@ -41,6 +41,7 @@ export function OutcomeChart({ distribution }: OutcomeChartProps) {
                 dataKey="label"
                 tickLine={false}
                 axisLine={false}
+                interval={0}
                 tick={{ fill: "#64748b", fontSize: 12 }}
               />
               <YAxis
@@ -57,7 +58,7 @@ export function OutcomeChart({ distribution }: OutcomeChartProps) {
                   backgroundColor: "#ffffff",
                   boxShadow: "0 12px 28px rgba(15, 23, 42, 0.08)",
                 }}
-                formatter={(value: number) => [value, "Participants"]}
+                formatter={(value) => [Number(value ?? 0), "Participants"]}
               />
               <Bar dataKey="value" radius={[10, 10, 0, 0]}>
                 {entries.map((entry) => (
