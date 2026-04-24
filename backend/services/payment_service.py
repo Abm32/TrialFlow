@@ -11,6 +11,7 @@ def simulate_blockchain_payment(payment: PaymentRequest) -> PaymentReceipt:
     return PaymentReceipt(
         success=True,
         transaction_id=transaction_id,
+        tx_hash=payment.tx_hash,
         amount=payment.amount,
         currency=payment.currency,
     )

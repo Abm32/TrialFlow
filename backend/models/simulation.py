@@ -17,6 +17,7 @@ class PaymentRequest(BaseModel):
     wallet_address: str = Field(..., min_length=4)
     amount: float = Field(..., gt=0)
     currency: str = Field(default="INIT")
+    tx_hash: str | None = Field(default=None, description="On-chain transaction hash from the wallet payment")
 
 
 class SimulationRunRequest(BaseModel):
@@ -83,6 +84,7 @@ class BlockchainProof(BaseModel):
 class PaymentReceipt(BaseModel):
     success: bool
     transaction_id: str
+    tx_hash: str | None = None
     amount: float
     currency: str
 
@@ -90,6 +92,7 @@ class PaymentReceipt(BaseModel):
 class SimulationRunResponse(BaseModel):
     simulation_id: str
     simulation_type: SimulationType
+    insight_summary: str
     metrics: SimulationMetrics
     statistical_summary: StatisticalSummary
     effect_curve: list[ChartPoint]
