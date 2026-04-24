@@ -1,0 +1,26 @@
+{
+  "project_name": "TrialFlow",
+  "track": "AI",
+  "tagline": "Simulation-as-a-Service: pay-per-run drug trial modeling with on-chain proof anchoring on an Initia appchain.",
+  "description": "TrialFlow lets researchers configure and run Monte Carlo drug trial simulations gated by an Initia wallet transaction. Each simulation result is SHA-256 hashed and anchored on-chain, creating a tamper-evident audit trail. The platform runs on a dedicated Initia appchain with InterwovenKit wallet integration and session-key auto-signing for frictionless repeat runs.",
+  "team_members": [
+    "abhimanyu"
+  ],
+  "github_repo": "https://github.com/abhimanyu/TrialFlow",
+  "demo_video": "",
+  "deployment": {
+    "chain_id": "trialflow-1",
+    "tx_link": "3382F0317C7A0785630C28B4C8DCCBCA57A88987090BF002AA2A3DCF9D174225",
+    "deployment_link": "https://scan.testnet.initia.xyz/custom-network/add/link?config=eyJ2bSI6Im1vdmUiLCJjaGFpbklkIjoidHJpYWxmbG93LTEiLCJtaW5HYXNQcmljZSI6MCwiZGVub20iOiJ1bWluIiwibGNkIjoiaHR0cDovL2xvY2FsaG9zdDoxMzE3IiwicnBjIjoiaHR0cDovL2xvY2FsaG9zdDoyNjY1NyIsImluZGV4ZXIiOiJodHRwOi8vbG9jYWxob3N0OjY3NjcifQ=="
+  },
+  "initia_features": [
+    "InterwovenKit wallet connection and transaction handling",
+    "Session key auto-signing for repeat simulation runs",
+    "Appchain-ready configuration with custom chain descriptor support"
+  ],
+  "tech_stack": {
+    "frontend": "Next.js 15, TypeScript, Tailwind CSS, Recharts, @initia/interwovenkit-react",
+    "backend": "Python, FastAPI, NumPy, Pandas",
+    "blockchain": "Initia appchain (MiniMove VM), InterwovenKit"
+  }
+}
